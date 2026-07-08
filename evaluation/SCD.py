@@ -5,6 +5,7 @@ import numpy as np
 
 def _corr2(a, b):
     """Compute 2D correlation coefficient."""
+    # Remove the mean so the score reflects structural correlation.
     a = a - np.mean(a)
     b = b - np.mean(b)
     return float(np.sum(a * b) / np.sqrt(np.sum(a * a) * np.sum(b * b)))

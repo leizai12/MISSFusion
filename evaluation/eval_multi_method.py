@@ -141,6 +141,8 @@ def main():
     records = []
     for method in discover_methods(fused_root, args.methods):
         fused_dir = method_directory(fused_root, method)
+
+        # Use infrared filenames as the anchor for source and fused image pairing.
         for ir_path in tqdm(ir_files, desc=method):
             vi_path = resolve_by_name(vi_dir, ir_path.name)
             fused_path = resolve_by_name(fused_dir, ir_path.name)
@@ -157,6 +159,7 @@ def main():
     if not records:
         raise RuntimeError("No valid image pairs were evaluated.")
 
+    # Store detailed per-image scores and compact method-level statistics.
     per_image = pd.DataFrame(records).round(args.round)
     summary = summarize(per_image, args.round)
     output.parent.mkdir(parents=True, exist_ok=True)

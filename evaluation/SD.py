@@ -7,6 +7,8 @@ def compute_sd(image):
     """Compute standard deviation."""
     image = np.asarray(image)
     m, n = image.shape
+
+    # Use the fused-image mean as the reference intensity.
     mean_value = np.mean(image)
 
     # Keep the explicit formula for consistency with the original metric script.

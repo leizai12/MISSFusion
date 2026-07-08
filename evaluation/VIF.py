@@ -68,4 +68,5 @@ def _vifp_mscale(ref, dist):
 
 def compute_vif(ir, vi, fused):
     """Compute VIF between the fused image and both sources."""
+    # IVIF evaluation sums the fidelity with respect to both modalities.
     return float(_vifp_mscale(ir, fused) + _vifp_mscale(vi, fused))
