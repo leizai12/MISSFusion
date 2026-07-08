@@ -86,13 +86,27 @@ Please update the image paths in the evaluation scripts if your local dataset or
 
 ## 📊 Evaluation Scripts
 
-The `evaluation/` directory contains scripts for objective fusion metrics, including EN, SF, AG, SD, SCD, VIF, FMI, SSIM, $Q_{abf}$, and $N_{abf}$.
+The `evaluation/` directory contains scripts for objective fusion metrics, including EN, SF, AG, SD, SCD, VIF, $Q_{abf}$, and LPIPS.
 
-Before running evaluation, please set the source image paths, fused image paths, and output paths in the corresponding evaluation script.
+Run the evaluator with source-image folders and a fused-result folder. If `--methods` is omitted, each subdirectory under `--fused_root` is treated as one method.
 
 ```bash
 cd evaluation
-python eval_multi_method.py
+python eval_multi_method.py \
+  --ir_dir ../test_images/MSRS/ir \
+  --vi_dir ../test_images/MSRS/vi \
+  --fused_root ../results/MSRS \
+  --output ../metrics_msrs.xlsx \
+  --lpips_ref vi
+```
+
+LPIPS is computed pairwise using `lpips.LPIPS(net="alex", version="0.1")`. In the multi-metric evaluator, `--lpips_ref vi` uses the visible source image as the LPIPS reference; it can be changed to `ir` or `mean` if needed. LPIPS is lower better; the other seven metrics are higher better.
+
+For standalone two-directory LPIPS evaluation:
+
+```bash
+cd evaluation
+python lpips_2dirs.py --dir0 ../test_images/MSRS/vi --dir1 ../results/MSRS/OURS
 ```
 
 ---
@@ -112,3 +126,6 @@ The following materials will be released after the paper is officially accepted:
 ## 📧 Contact
 
 If you have any questions or encounter issues, please open an issue in this repository.
+
+
+
