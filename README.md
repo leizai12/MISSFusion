@@ -1,27 +1,42 @@
 <div align="center">
 
-# MISSFusion: A Multi-granularity Interaction and Semantic-Structure Rectification Network for Infrared and Visible Image Fusion
+# MISSFusion: A Multi-Granularity Interaction and Semantic-Structure Rectification Network for Infrared and Visible Image Fusion
 
 [![Paper](https://img.shields.io/badge/Paper-Coming%20Soon-lightgrey)](#)
 [![Code](https://img.shields.io/badge/Code-PyTorch-orange.svg)](#)
 
-
 </div>
 
-## 📢 Announcement
+## 📢 Current Repository Status
 
-**Code Availability:** This repository is the official implementation of **MISSFusion**. The complete source code, including pre-trained models, training configurations, and evaluation scripts, is currently being organized for better reproducibility. **The full codebase will be released immediately upon the official acceptance of the paper.** We appreciate your patience and interest—stay tuned by starring ⭐ this repository!
+This repository provides the current public materials for **MISSFusion**, including evaluation scripts and test image organization for reproducibility checking.
+
+The complete training and inference code, pretrained weights, configuration files, and detailed running instructions are being organized and will be released after the paper is officially accepted.
 
 ---
 
-## 🛠️ Installation & Requirements
+## 📁 Repository Structure
+
+```text
+MISSFusion/
+├── evaluation/          # Objective metric evaluation scripts
+├── test_images/         # Test image organization used by the evaluation scripts
+├── requirements.txt     # Python dependencies
+└── README.md
+```
+
+---
+
+## 🛠️ Installation
 
 The codebase has been developed and tested under the following environment:
+
 - Python >= 3.8
 - PyTorch >= 1.12
 - CUDA >= 11.3
 
 ### Environment Setup
+
 ```bash
 # Clone the repository
 git clone https://github.com/leizai12/MISSFusion.git
@@ -35,21 +50,11 @@ conda activate missfusion
 pip install -r requirements.txt
 ```
 
-*> Note: For downstream object detection evaluation, please ensure that the required detection dependencies are installed. Our experiments use the [YOLO26l detector](https://docs.ultralytics.com/models/yolo26/#overview).*
-
 ---
 
-## 📂 Dataset Preparation
+## 📂 Dataset Organization
 
-We evaluate MISSFusion on the following public datasets:
-- **MSRS**
-- **M3FD**
-- **RoadScene**
-- **LLVIP**
-- **HDO**
-- **TNO**
-
-Please organize the datasets as follows:
+The test image folders are organized as follows:
 
 ```text
 test_images/
@@ -75,32 +80,32 @@ test_images/
     └── vi/
 ```
 
-Please modify the dataset paths in the corresponding config files before running training or testing.
+Please update the image paths in the evaluation scripts if your local dataset or result directory differs from the default organization.
 
 ---
 
-## 💻 Quick Start
+## 📊 Evaluation Scripts
 
-### 1. Training
-To train the model from scratch on the MSRS dataset, run:
+The `evaluation/` directory contains scripts for objective fusion metrics, including EN, SF, AG, SD, SCD, VIF, FMI, SSIM, $Q_{abf}$, and $N_{abf}$.
 
-```bash
-CUDA_VISIBLE_DEVICES=0 python train.py --config configs/train_msrs.yaml
-```
-
-### 2. Inference / Testing
-To test the model using our provided pre-trained weights (available after code release):
+Before running evaluation, please set the source image paths, fused image paths, and output paths in the corresponding evaluation script.
 
 ```bash
-python test.py --config configs/test_msrs.yaml --checkpoint checkpoints/missfusion_msrs.pth
+cd evaluation
+python eval_multi_method.py
 ```
 
-### 3. Evaluation (Objective Metrics)
-To compute quantitative metrics such as EN, SF, AG, SD, SCD, VIF, and $N_{AB/F}$:
+---
 
-```bash
-python eval.py --dataset MSRS --result_dir results/MSRS
-```
+## 🚧 Planned Release
+
+The following materials will be released after the paper is officially accepted:
+
+- Training code
+- Inference and testing code
+- Configuration files
+- Pretrained weights
+- Detailed instructions for reproducing the main experimental results
 
 ---
 
