@@ -7,7 +7,7 @@
 
 </div>
 
-## 📢 Current Repository Status
+## Current Repository Status
 
 This repository provides the current public materials for **MISSFusion**, including evaluation scripts and test image organization for reproducibility checking.
 
@@ -15,7 +15,7 @@ The complete training and inference code, pretrained weights, configuration file
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```text
 MISSFusion/
@@ -27,7 +27,7 @@ MISSFusion/
 
 ---
 
-## 🛠️ Installation
+## Installation
 
 The codebase has been developed and tested under the following environment:
 
@@ -52,7 +52,7 @@ pip install -r requirements.txt
 
 ---
 
-## 📂 Dataset Organization
+## Dataset Organization
 
 The test image folders are organized as follows:
 
@@ -84,34 +84,18 @@ Please update the image paths in the evaluation scripts if your local dataset or
 
 ---
 
-## 📊 Evaluation Scripts
+## Evaluation Scripts
 
-The `evaluation/` directory contains scripts for objective fusion metrics, including EN, SF, AG, SD, SCD, VIF, $Q_{abf}$, and LPIPS.
-
-Run the evaluator with source-image folders and a fused-result folder. If `--methods` is omitted, each subdirectory under `--fused_root` is treated as one method.
+The `evaluation/` directory contains one Python file for each reported metric and `eval_multi_method.py` for batch evaluation.
 
 ```bash
 cd evaluation
-python eval_multi_method.py \
-  --ir_dir ../test_images/MSRS/ir \
-  --vi_dir ../test_images/MSRS/vi \
-  --fused_root ../results/MSRS \
-  --output ../metrics_msrs.xlsx \
-  --lpips_ref vi
-```
-
-LPIPS is computed pairwise using `lpips.LPIPS(net="alex", version="0.1")`. In the multi-metric evaluator, `--lpips_ref vi` uses the visible source image as the LPIPS reference; it can be changed to `ir` or `mean` if needed. LPIPS is lower better; the other seven metrics are higher better.
-
-For standalone two-directory LPIPS evaluation:
-
-```bash
-cd evaluation
-python lpips_2dirs.py --dir0 ../test_images/MSRS/vi --dir1 ../results/MSRS/OURS
+python eval_multi_method.py --ir_dir ../test_images/MSRS/ir --vi_dir ../test_images/MSRS/vi --fused_root ../results/MSRS --output ../metrics_msrs.xlsx
 ```
 
 ---
 
-## 🚧 Planned Release
+## Planned Release
 
 The following materials will be released after the paper is officially accepted:
 
@@ -123,9 +107,11 @@ The following materials will be released after the paper is officially accepted:
 
 ---
 
-## 📧 Contact
+## Contact
 
 If you have any questions or encounter issues, please open an issue in this repository.
+
+
 
 
 

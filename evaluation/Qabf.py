@@ -15,7 +15,6 @@ def _strength_angle(image):
     """Compute Sobel gradient strength and angle."""
     h1 = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]], dtype=np.float32)
     h3 = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], dtype=np.float32)
-
     sx = _conv2_same(h3, image)
     sy = _conv2_same(h1, image)
     strength = np.sqrt(np.multiply(sx, sx) + np.multiply(sy, sy))
@@ -28,7 +27,7 @@ def _strength_angle(image):
     return strength, angle
 
 
-def get_Qabf(ir, vi, fused):
+def compute_qabf(ir, vi, fused):
     """Compute Qabf for infrared-visible image fusion."""
     tg = 0.9994
     kg = -15
@@ -52,7 +51,6 @@ def get_Qabf(ir, vi, fused):
 
     q_ir = edge_score(angle_ir, grad_ir, angle_fused, grad_fused)
     q_vi = edge_score(angle_vi, grad_vi, angle_fused, grad_fused)
-
     denominator = np.sum(grad_ir + grad_vi)
     numerator = np.sum(np.multiply(q_ir, grad_ir) + np.multiply(q_vi, grad_vi))
     return float(numerator / denominator)
