@@ -1,3 +1,5 @@
+"""Sum of Correlations of Differences (SCD) metric."""
+
 import numpy as np
 
 
@@ -10,4 +12,5 @@ def _corr2(a, b):
 
 def compute_scd(ir, vi, fused):
     """Compute sum of correlations of differences."""
+    # Measure how each source modality is preserved in the fusion residuals.
     return float(_corr2(fused - vi, ir) + _corr2(fused - ir, vi))

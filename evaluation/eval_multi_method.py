@@ -1,3 +1,5 @@
+"""Batch evaluator for the eight metrics reported in the MISSFusion paper."""
+
 import argparse
 from pathlib import Path
 
@@ -16,6 +18,7 @@ from SD import compute_sd
 from SF import compute_sf
 from VIF import compute_vif
 
+# Metrics reported in the revised manuscript.
 METRIC_NAMES = ("EN", "SF", "AG", "SD", "SCD", "VIF", "Qabf", "LPIPS")
 IMAGE_EXTENSIONS = (".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff")
 
@@ -40,6 +43,7 @@ def list_images(directory):
     return [p for p in natsorted(directory.iterdir(), key=lambda x: x.name) if p.suffix.lower() in IMAGE_EXTENSIONS]
 
 
+# Resolve paired images with the same stem and common image extensions.
 def resolve_by_name(directory, reference_name):
     directory = Path(directory)
     direct = directory / reference_name
@@ -53,6 +57,7 @@ def resolve_by_name(directory, reference_name):
     return None
 
 
+# If no method list is provided, each subfolder under fused_root is one method.
 def discover_methods(fused_root, methods):
     fused_root = Path(fused_root)
     if methods:
@@ -77,6 +82,7 @@ def choose_device(name):
         return "cpu"
 
 
+# LPIPS is pairwise; choose VI, IR, or their mean as the reference.
 def compute_lpips_for_sources(ir_path, vi_path, fused_path, args, device):
     if args.lpips_ref == "ir":
         return compute_lpips(ir_path, fused_path, device=device, net=args.lpips_net, version=args.lpips_version)
@@ -87,6 +93,7 @@ def compute_lpips_for_sources(ir_path, vi_path, fused_path, args, device):
     return float((ir_score + vi_score) / 2.0)
 
 
+# Compute all eight metrics for one aligned image triplet.
 def evaluate_one(ir_path, vi_path, fused_path, args, device):
     ir = load_gray(ir_path)
     vi = load_gray(vi_path)
@@ -106,6 +113,7 @@ def evaluate_one(ir_path, vi_path, fused_path, args, device):
     }
 
 
+# Save both per-image scores and method-level mean/std summaries.
 def summarize(per_image, decimals):
     rows = []
     for method, group in per_image.groupby("Method", sort=False):

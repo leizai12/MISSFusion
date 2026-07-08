@@ -1,3 +1,5 @@
+"""Visual Information Fidelity (VIF) metric for image fusion."""
+
 import numpy as np
 from scipy.signal import convolve2d
 
@@ -22,10 +24,12 @@ def _vifp_mscale(ref, dist):
     ref = np.asarray(ref, dtype=np.float64)
     dist = np.asarray(dist, dtype=np.float64)
 
+    # Evaluate information fidelity over four scales.
     for scale in range(1, 5):
         window_size = 2 ** (4 - scale + 1) + 1
         window = _gaussian_kernel((window_size, window_size), window_size / 5)
 
+        # Downsample after the first scale.
         if scale > 1:
             ref = convolve2d(ref, window, mode="valid")
             dist = convolve2d(dist, window, mode="valid")
@@ -41,6 +45,7 @@ def _vifp_mscale(ref, dist):
         sigma2_sq = convolve2d(dist * dist, window, mode="valid") - mu2_sq
         sigma12 = convolve2d(ref * dist, window, mode="valid") - mu1_mu2
 
+        # Numerical guards follow the original VIF implementation.
         sigma1_sq[sigma1_sq < 0] = 0
         sigma2_sq[sigma2_sq < 0] = 0
         g = sigma12 / (sigma1_sq + 1e-10)
