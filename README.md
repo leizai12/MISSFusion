@@ -4,6 +4,10 @@
 
 [![Paper](https://img.shields.io/badge/Paper-Coming%20Soon-lightgrey)](#)
 [![Code](https://img.shields.io/badge/Code-PyTorch-orange.svg)](#)
+
+<p align="center">
+  <img src="assets/MISSFusion_overview.png" alt="MISSFusion overview" width="95%">
+</p>
 
 </div>
 
@@ -19,6 +23,7 @@ The complete training and inference code, pretrained weights, configuration file
 
 ```text
 MISSFusion/
+├── assets/              # Overview figure
 ├── evaluation/          # Objective metric evaluation scripts
 ├── test_images/         # Test image organization used by the evaluation scripts
 ├── requirements.txt     # Python dependencies
@@ -110,6 +115,7 @@ The following materials will be released after the paper is officially accepted:
 ## Contact
 
 If you have any questions or encounter issues, please open an issue in this repository.
+
 
 
 
